@@ -1,0 +1,551 @@
+{
+	"info": {
+		"_postman_id": "dff440a4-585d-43b7-bfaa-d40e89f28874",
+		"name": "Employee Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22428198"
+	},
+	"item": [
+		{
+			"name": "Create Employee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"employees\": [\n        {\n            \"name\": \"Abhishek Jain\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 123\n        },\n        {\n            \"name\": \"Abhishek J\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 123.45\n        },\n        {\n            \"name\": \"Abhishek Ja\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 120000000\n        },\n        {\n            \"name\": \"Abhishek Jai\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 12378\n        },\n        {\n            \"name\": \"Abhishek Jain\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 1234532\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9876/api/v1/employee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9876",
+					"path": [
+						"api",
+						"v1",
+						"employee"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Employee",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"employees\": [\n        {\n            \"name\": \"Abhishek\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 123\n        },\n        {\n            \"name\": \"Abhishek J\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 123.45\n        },\n        {\n            \"name\": \"Abhishek Ja\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 120000000\n        },\n        {\n            \"name\": \"Abhishek Jai\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 12378\n        },\n        {\n            \"name\": \"Abhishek Jain\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 1234532\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 09:25:38 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "62"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Employees created successfully\",\n    \"type\": \"Success\"\n}"
+				},
+				{
+					"name": "Invalid Fields",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"employees\": [\n        {\n            \"name\": \"\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 123\n        },\n        {\n            \"name\": \"Abhishek J\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 123.45\n        },\n        {\n            \"name\": \"Abhishek Ja\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 120000000\n        },\n        {\n            \"name\": \"Abhishek Jai\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 12378\n        },\n        {\n            \"name\": \"Abhishek Jain\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 1234532\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee"
+							]
+						}
+					},
+					"status": "Unprocessable Entity",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 09:48:55 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "94"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"error\",\n    \"title\": \"Request Not Processed\",\n    \"message\": {\n        \"name\": \"name is a required field\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Employee By ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2,\n    \"name\": \"Abhishek Jain\",\n    \"position\": \"Senior Software Engineer (Golang)\",\n    \"salary\": 23.6\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9876/api/v1/employee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9876",
+					"path": [
+						"api",
+						"v1",
+						"employee"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update Employee By ID",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"name\": \"Abhishek Jain\",\n    \"position\": \"Senior Software Engineer (Golang)\",\n    \"salary\": 23.6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 09:26:25 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "61"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Employee updated successfully\",\n    \"type\": \"Success\"\n}"
+				},
+				{
+					"name": "Update Employee By ID",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"name\": \"Abhishek Jain\",\n    \"position\": \"Senior Software Engineer (Golang)\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee"
+							]
+						}
+					},
+					"status": "Unprocessable Entity",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 09:55:36 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "80"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"error\",\n    \"title\": \"Request Not Processed\",\n    \"message\": \"Invalid Employee ID\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Employee By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9876/api/v1/employee/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9876",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Employee By ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 07:10:13 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "205"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Abhishek\",\n        \"position\": \"Senior Software Engineer\",\n        \"salary\": 1234532,\n        \"created_at\": \"2024-06-09T12:40:11.036623+05:30\",\n        \"updated_at\": \"2024-06-09T12:40:11.036623+05:30\",\n        \"deleted_at\": null\n    }\n}"
+				},
+				{
+					"name": "Invalid Employee ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"2"
+							]
+						}
+					},
+					"status": "Unprocessable Entity",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 09:26:42 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "80"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"error\",\n    \"title\": \"Request Not Processed\",\n    \"message\": \"Invalid Employee ID\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9876/api/v1/employee?page=1&per_page=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9876",
+					"path": [
+						"api",
+						"v1",
+						"employee"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "per_page",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Employees",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee?page=1&per_page=100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 09:26:59 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "863"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Abhishek\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 123,\n            \"created_at\": \"2024-06-09T14:55:38.415252+05:30\",\n            \"updated_at\": \"2024-06-09T14:55:38.415252+05:30\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Abhishek Ja\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 120000000,\n            \"created_at\": \"2024-06-09T14:55:38.415252+05:30\",\n            \"updated_at\": \"2024-06-09T14:55:38.415252+05:30\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Abhishek Jai\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 12378,\n            \"created_at\": \"2024-06-09T14:55:38.415252+05:30\",\n            \"updated_at\": \"2024-06-09T14:55:38.415252+05:30\",\n            \"deleted_at\": null\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Abhishek Jain\",\n            \"position\": \"Senior Software Engineer \",\n            \"salary\": 1234532,\n            \"created_at\": \"2024-06-09T14:55:38.415252+05:30\",\n            \"updated_at\": \"2024-06-09T14:55:38.415252+05:30\",\n            \"deleted_at\": null\n        }\n    ],\n    \"pagination\": {\n        \"current_page\": 1,\n        \"last_page\": 1,\n        \"total\": 4\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete Employee By ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9876/api/v1/employee/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9876",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete Employee By ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 07:10:13 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "205"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Employee deleted successfully\",\n    \"type\": \"Success\"\n}"
+				},
+				{
+					"name": "Invalid Employee ID",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/api/v1/employee/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"2"
+							]
+						}
+					},
+					"status": "Unprocessable Entity",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Jun 2024 09:56:45 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "80"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"error\",\n    \"title\": \"Request Not Processed\",\n    \"message\": \"Invalid Employee ID\"\n}"
+				}
+			]
+		}
+	]
+}
