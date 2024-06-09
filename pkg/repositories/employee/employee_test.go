@@ -24,6 +24,7 @@ func setupTestDB(t *testing.T) *gorm.DB {
 		t.Fatalf("failed to migrate schema, %v", err)
 	}
 
+	zaplogger.InitLogger(global.TestLogFileName)
 	return db
 }
 
@@ -68,7 +69,6 @@ func TestGetAllEmployee(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			ctx := context.Background()
-			zaplogger.InitLogger(global.TestLogFileName)
 			response, err := repo.GetAllEmployee(ctx, tc.queryParams)
 
 			if tc.expectedError != nil {
@@ -79,4 +79,91 @@ func TestGetAllEmployee(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestCreateEmployee(t *testing.T) {
+	db := setupTestDB(t)
+	repo := NewEmployeeRepo(db)
+
+	decodeEmployeePOSTRequest := global.DecodeEmployeesPOSTRequest{
+		Employees: []global.DecodeEmployee{{
+			Name:     "Abhishek",
+			Position: "Engineer",
+			Salary:   70000,
+		}},
+	}
+	employee := &models.Employee{
+		Name:     "Abhishek",
+		Position: "Engineer",
+		Salary:   70000,
+	}
+
+	ctx := context.Background()
+
+	err := repo.CreateEmployee(ctx, decodeEmployeePOSTRequest)
+	assert.NoError(t, err)
+
+	var result models.Employee
+	err = db.First(&result).Error
+	assert.NoError(t, err)
+	assert.Equal(t, employee.Name, result.Name)
+	assert.Equal(t, employee.Position, result.Position)
+	assert.Equal(t, employee.Salary, result.Salary)
+}
+
+func TestUpdateEmployee(t *testing.T) {
+	db := setupTestDB(t)
+	repo := NewEmployeeRepo(db)
+
+	name := "Abhishek Updated"
+	position := "Senior Engineer"
+	salary := 70000.2
+
+	employee := &models.Employee{
+		Name:     "Abhishek",
+		Position: "Engineer",
+		Salary:   70000,
+	}
+	db.Create(employee)
+
+	updatedEmployee := global.DecodeEmployeePUTRequest{
+		ID:       employee.ID,
+		Name:     &name,
+		Position: &position,
+		Salary:   &salary,
+	}
+
+	ctx := context.Background()
+
+	err := repo.UpdateEmployeeByID(ctx, updatedEmployee)
+	assert.NoError(t, err)
+
+	var result models.Employee
+	err = db.First(&result, employee.ID).Error
+	assert.NoError(t, err)
+	assert.Equal(t, *updatedEmployee.Name, result.Name)
+	assert.Equal(t, *updatedEmployee.Position, result.Position)
+	assert.Equal(t, *updatedEmployee.Salary, result.Salary)
+}
+
+func TestDeleteEmployee(t *testing.T) {
+	db := setupTestDB(t)
+	repo := NewEmployeeRepo(db)
+
+	employee := &models.Employee{
+		Name:     "Alice",
+		Position: "Engineer",
+		Salary:   70000,
+	}
+	db.Create(employee)
+
+	ctx := context.Background()
+
+	err := repo.DeleteEmployeeByID(ctx, employee.ID)
+	assert.NoError(t, err)
+
+	var result models.Employee
+	err = db.First(&result, employee.ID).Error
+	assert.Error(t, err)
+	assert.Equal(t, gorm.ErrRecordNotFound, err)
 }

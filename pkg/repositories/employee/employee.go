@@ -92,15 +92,23 @@ func (repo *Repository) UpdateEmployeeByID(ctx context.Context, request global.D
 	}
 
 	tx := repo.db.Begin()
-	err := tx.Table(employee.GetTableName()).Where("id = ?", request.ID).Updates(employee).Error
-	if err != nil {
+	res := tx.Table(employee.GetTableName()).Where("id = ?", request.ID).Updates(employee)
+	if res.Error != nil {
 		tx.Rollback()
-		zaplogger.Error(ctx, errs.EmployeeUpdateError, zap.Error(err),
+		zaplogger.Error(ctx, errs.EmployeeUpdateError, zap.Error(res.Error),
 			zap.Int("employee_id", request.ID),
 		)
 		return errs.InternalErr()
 	}
-	err = tx.Commit().Error
+
+	// Check if any rows were affected
+	if res.RowsAffected == 0 {
+		tx.Rollback()
+		zaplogger.Error(ctx, errs.EmployeeNoRecordFoundError, zap.Int("employee_id", request.ID))
+		return errs.RequestNotProcessed(errs.EmployeeNoRecordFoundError)
+	}
+
+	err := tx.Commit().Error
 	if err != nil {
 		zaplogger.Error(ctx, errs.CommitTransactionError, zap.Error(err))
 		return err
@@ -119,15 +127,22 @@ func (repo *Repository) DeleteEmployeeByID(ctx context.Context, id int) error {
 
 	tx := repo.db.Begin()
 
-	err := tx.Table(employee.GetTableName()).Where(&employee).Delete(&employee).Error
-	if err != nil {
+	res := tx.Table(employee.GetTableName()).Where(&employee).Delete(&employee)
+	if res.Error != nil {
 		tx.Rollback()
-		zaplogger.Error(ctx, errs.DeleteEmployeeError, zap.Error(err),
+		zaplogger.Error(ctx, errs.DeleteEmployeeError, zap.Error(res.Error),
 			zap.Int("employee_id", id),
 		)
 		return errs.InternalErr()
 	}
-	err = tx.Commit().Error
+
+	// Check if any rows were affected
+	if res.RowsAffected == 0 {
+		tx.Rollback()
+		zaplogger.Error(ctx, errs.EmployeeNoRecordFoundError, zap.Int("employee_id", id))
+		return errs.RequestNotProcessed(errs.EmployeeNoRecordFoundError)
+	}
+	err := tx.Commit().Error
 	if err != nil {
 		zaplogger.Error(ctx, errs.CommitTransactionError, zap.Error(err))
 		return err
