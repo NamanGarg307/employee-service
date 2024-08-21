@@ -81,8 +81,6 @@ func run(cmd *cobra.Command, args []string) {
 		}
 	}()
 
-	waitgroup.Gwg.Add(1)
-
 	// listen for C-c
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

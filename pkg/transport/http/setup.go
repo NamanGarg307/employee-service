@@ -38,6 +38,7 @@ logger: Global logging object
 func StartAPIServer(ctx context.Context, conf *config.Config,
 	wg *sync.WaitGroup, db *gorm.DB) error {
 
+	wg.Add(1)
 	defer wg.Done()
 
 	// Set gin to release mode
@@ -60,7 +61,7 @@ func StartAPIServer(ctx context.Context, conf *config.Config,
 	corsConfig.AllowAllOrigins = true
 	v1RoutesGroup.Use(cors.New(corsConfig))
 
-	// Registerting API Routes
+	// Registering API Routes
 	RegisterAPIRoutes(v1RoutesGroup, db)
 
 	// HTTP server instance
@@ -122,17 +123,10 @@ func Setup(ctx context.Context, conf *config.Config, wg *sync.WaitGroup, db *gor
 	defer cancel()
 
 	for backoff.Continue(b) {
-		// channel to mark completion
-		done := make(chan struct{})
-
 		// check for context
 		select {
 		case <-ctx.Done():
 			zaplogger.Debug(ctx, "Context cancelled. Stopping sink proxy")
-			select {
-			case <-done:
-			case <-time.After(global.FiveHundred * time.Microsecond):
-			}
 			return nil
 		default:
 			err := StartAPIServer(ctx, conf, wg, db)
@@ -144,6 +138,6 @@ func Setup(ctx context.Context, conf *config.Config, wg *sync.WaitGroup, db *gor
 		}
 	}
 
-	// in the case of retry attempts to exceed, return with errror
-	return errors.New("will add later")
+	// in the case of retry attempts to exceed, return with error
+	return errors.New("failed to start server after maximum retries")
 }

@@ -3,6 +3,7 @@ package employee
 import (
 	"context"
 	"errors"
+	"github.com/jainabhishek5986/employee-records/pkg/repositories"
 	"strconv"
 
 	"github.com/jainabhishek5986/employee-records/pkg/errs"
@@ -18,7 +19,7 @@ type Repository struct {
 	db *gorm.DB
 }
 
-func NewEmployeeRepo(db *gorm.DB) *Repository {
+func NewEmployeeRepo(db *gorm.DB) repositories.EmployeeRepository {
 	return &Repository{db: db}
 }
 
